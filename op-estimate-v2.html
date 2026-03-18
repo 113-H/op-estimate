@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>オプション見積 | ひかりハウジング株式会社</title>
+<link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* ─── Sky blue pale tone palette ─── */
+  --cream:   #f2f8fc;
+  --ivory:   #e5f2f9;
+  --sand:    #c8dff0;
+  --warm:    #9ec8e0;
+  --accent:  #2e7eb0;
+  --accent2: #4aab8c;
+  --muted:   #5e8ea8;
+  --text:    #1a3248;
+  --text-s:  #3d6882;
+  --text-xs: #6e9ab5;
+  --white:   #f8fcff;
+  --danger:  #c4776a;
+  --admin:   #6e5aad;
+
+  --r: 10px;
+  --r-sm: 6px;
+  --shadow: 0 1px 8px rgba(61,53,48,.08);
+  --shadow-md: 0 4px 20px rgba(61,53,48,.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 300;
+}
+
+/* ── HEADER ── */
+.hdr {
+  background: var(--text);
+  height: 54px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: none;
+  box-shadow: var(--shadow-md);
+}
+.brand-name {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+.brand-sub {
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: rgba(200,225,240,0.6);
+  text-transform: uppercase;
+  margin-top: 1px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  background: rgba(200,225,240,0.2);
+  border: 1.5px solid rgba(200,225,240,0.5);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0;
+}
+.hdr-nav {
+  display: flex;
+  gap: 2px;
+}
+.ntab {
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: none;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: rgba(200,225,240,0.65);
+  background: none;
+  transition: all .2s;
+}
+.ntab:hover { color: var(--white); }
+.ntab.on { background: rgba(200,225,240,0.15); color: var(--white); border: 1px solid rgba(200,225,240,0.25); }
+.ntab.adm-tab { color: rgba(180,200,230,0.5); }
+.ntab.adm-tab.on { background: rgba(120,100,200,0.3); color: #c4b5fd; border: 1px solid rgba(120,100,200,0.4); }
+
+.hdr-btns {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.hbtn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(200,225,240,0.35);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: rgba(200,225,240,0.1);
+  color: rgba(200,225,240,0.8);
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.hbtn:hover { background: rgba(200,225,240,0.2); color: var(--white); }
+.hbtn-save {
+  background: var(--accent2);
+  border-color: var(--accent2);
+  color: var(--white);
+  font-weight: 600;
+}
+.hbtn-save:hover { background: #3a9b7c; border-color: #3a9b7c; }
+.hbtn-pdf {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--white);
+  font-weight: 600;
+}
+.hbtn-pdf:hover { background: #226e9e; border-color: #226e9e; }
+
+/* ── SCREENS ── */
+.screen { display: none; }
+.screen.on { display: flex; height: calc(100vh - 54px); }
+
+/* ── LEFT PANEL ── */
+.left {
+  width: 310px;
+  flex-shrink: 0;
+  background: var(--white);
+  border-right: 1px solid var(--sand);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.right {
+  flex: 1;
+  overflow-y: auto;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: var(--cream);
+}
+
+.sec {
+  padding: 16px 16px;
+  border-bottom: 1px solid var(--ivory);
+}
+.sec-ttl {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-xs);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sec-ttl::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ivory);
+}
+
+/* forms */
+.fg { margin-bottom: 10px; }
+.lbl {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--text-xs);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.inp, .sel {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--sand);
+  border-radius: var(--r-sm);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text);
+  background: var(--cream);
+  outline: none;
+  transition: all .2s;
+}
+.inp:focus, .sel:focus {
+  border-color: var(--accent);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(184,149,106,.08);
+}
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+/* category tabs */
+.ctabs { display: flex; flex-wrap: wrap; gap: 4px; }
+.ctab {
+  padding: 4px 11px;
+  border-radius: 16px;
+  border: 1px solid var(--sand);
+  background: var(--white);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .2s;
+  color: var(--text-s);
+  text-transform: uppercase;
+}
+.ctab:hover { border-color: var(--accent); color: var(--accent); }
+.ctab.on { background: var(--accent); border-color: var(--accent); color: var(--white); }
+
+/* search */
+.srch {
+  position: relative;
+  margin-bottom: 10px;
+}
+.srch input {
+  width: 100%;
+  padding: 7px 12px 7px 30px;
+  border: 1px solid var(--sand);
+  border-radius: var(--r-sm);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  background: var(--cream);
+  outline: none;
+  transition: all .2s;
+  color: var(--text);
+}
+.srch input:focus { border-color: var(--accent); background: var(--white); }
+.srch-ico {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-xs);
+  font-size: 12px;
+  pointer-events: none;
+}
+
+/* master items */
+.mlist { display: flex; flex-direction: column; gap: 4px; }
+.mitem {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--ivory);
+  border-radius: var(--r-sm);
+  background: var(--white);
+  cursor: pointer;
+  transition: all .15s;
+  overflow: hidden;
+}
+.mitem:hover { border-color: var(--accent); box-shadow: 0 2px 8px rgba(184,149,106,.12); }
+.mitem.added { border-color: var(--accent2); background: #f4f8f4; }
+.mi-body { flex: 1; padding: 8px 10px; min-width: 0; }
+.mi-name {
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text);
+}
+.mi-meta {
+  font-size: 10px;
+  color: var(--text-xs);
+  margin-top: 2px;
+  font-weight: 300;
+}
+.mi-price {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-s);
+  padding: 0 8px;
+  white-space: nowrap;
+}
+.madd-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--accent);
+  color: var(--white);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: 0 8px;
+  transition: all .2s;
+}
+.madd-btn:hover { background: #a8865a; transform: scale(1.08); }
+.madd-btn.done {
+  background: var(--accent2);
+  font-size: 12px;
+}
+
+/* ── QUOTE HEADER ── */
+.q-hdr {
+  background: var(--text);
+  border-radius: var(--r);
+  padding: 20px 24px;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.q-no {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: rgba(200,225,240,0.5);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.q-site {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+.q-cli {
+  font-size: 12px;
+  color: rgba(200,225,240,0.65);
+  margin-top: 3px;
+  font-weight: 300;
+}
+.q-totbox { text-align: right; }
+.q-lbl {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: rgba(200,225,240,0.5);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.q-amt {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: 1px;
+  color: #90d4f5;
+}
+.q-tax {
+  font-size: 10px;
+  color: rgba(200,225,240,0.4);
+  margin-top: 2px;
+}
+.q-series {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(200,225,240,0.9);
+  background: rgba(200,225,240,0.12);
+  border: 1px solid rgba(200,225,240,0.25);
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+/* ── CATEGORY GROUP ── */
+.cg {
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--sand);
+  overflow: hidden;
+  animation: fadeUp .2s ease;
+}
+.cg-hdr {
+  padding: 10px 18px;
+  background: var(--ivory);
+  border-bottom: 1px solid var(--sand);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cg-name {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.cg-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.cg-sub {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+
+/* table */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl thead th {
+  padding: 8px 14px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-xs);
+  border-bottom: 1px solid var(--ivory);
+  text-align: left;
+  background: var(--white);
+}
+.tbl tbody tr { border-bottom: 1px solid var(--ivory); transition: background .12s; }
+.tbl tbody tr:last-child { border-bottom: none; }
+.tbl tbody tr:hover { background: #fdfaf6; }
+.tbl td { padding: 10px 14px; font-size: 12px; vertical-align: middle; font-weight: 300; }
+.td-name { font-weight: 400; font-size: 13px; color: var(--text); }
+.td-spec { font-size: 10px; color: var(--text-xs); margin-top: 2px; }
+.qty-wrap { display: flex; align-items: center; gap: 5px; }
+.qbtn {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--sand);
+  background: var(--white);
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .12s;
+  color: var(--text-s);
+}
+.qbtn:hover { border-color: var(--accent); color: var(--accent); }
+.qnum {
+  width: 28px;
+  text-align: center;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+}
+.td-unit { font-size: 10px; color: var(--text-xs); }
+.td-uprice { color: var(--text-xs); font-size: 11px; font-family: 'Josefin Sans', sans-serif; }
+.td-tot {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text);
+  text-align: right;
+}
+.ninp {
+  border: 1px solid var(--sand);
+  border-radius: var(--r-sm);
+  padding: 4px 8px;
+  font-size: 11px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 300;
+  width: 88px;
+  outline: none;
+  background: var(--cream);
+  color: var(--text);
+}
+.ninp:focus { border-color: var(--accent); background: var(--white); }
+.del-btn {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--sand);
+  background: var(--white);
+  color: var(--text-xs);
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+}
+.del-btn:hover { background: #fdf0ee; border-color: var(--danger); color: var(--danger); }
+
+/* admin cols */
+.acol { display: none; }
+body.adm .acol { display: table-cell; }
+.arow { display: none; background: #f8f6fd; }
+body.adm .arow { display: table-row; }
+.arow td { padding: 3px 14px 5px; font-size: 10px; color: var(--admin); border-bottom: 1px solid #ede9f8; }
+
+/* profit colors */
+.mg-g { color: var(--accent2); font-weight: 400; }
+.mg-w { color: #c47a3a; font-weight: 400; }
+.mg-b { color: var(--danger); font-weight: 400; }
+
+/* ── SUMMARY ── */
+.sum-card {
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--sand);
+  padding: 20px 24px;
+}
+.sum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.srow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--ivory);
+  font-size: 13px;
+}
+.srow:last-child { border-bottom: none; }
+.srow.stot {
+  padding-top: 12px;
+  border-top: 1px solid var(--sand);
+  margin-top: 4px;
+  font-size: 15px;
+}
+.srow .sl {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-xs);
+  font-weight: 400;
+}
+.srow .sv {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--text);
+}
+.srow.stot .sv {
+  font-size: 20px;
+  color: var(--accent);
+}
+.srow.sar { display: none; }
+body.adm .srow.sar { display: flex; }
+body.adm .srow.sar .sl { color: var(--admin); }
+body.adm .srow.sar .sv { color: var(--admin); }
+.ssep { border-top: 1px dashed var(--sand); margin: 6px 0; }
+
+.memo-sec { display: flex; flex-direction: column; gap: 8px; }
+.mlbl {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-xs);
+}
+.v-inp, .m-inp {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--sand);
+  border-radius: var(--r-sm);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--text);
+  background: var(--cream);
+  outline: none;
+  transition: all .2s;
+}
+.v-inp:focus, .m-inp:focus { border-color: var(--accent); background: var(--white); }
+.m-inp { resize: vertical; min-height: 60px; }
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-xs);
+}
+.empty-ico { font-size: 32px; margin-bottom: 12px; opacity: .4; }
+.empty p { font-family: 'Josefin Sans', sans-serif; font-size: 12px; letter-spacing: 1px; }
+
+/* ── HISTORY SCREEN ── */
+#hist-screen {
+  flex-direction: column;
+  padding: 22px;
+  overflow-y: auto;
+  background: var(--cream);
+}
+.hist-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.hist-ttl {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.hist-cnt { font-size: 11px; color: var(--text-xs); margin-top: 3px; letter-spacing: 1px; }
+.new-btn {
+  padding: 7px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--accent);
+  background: var(--white);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all .2s;
+}
+.new-btn:hover { background: var(--accent); color: var(--white); }
+
+.h-wrap {
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--sand);
+  overflow: hidden;
+}
+.h-tbl { width: 100%; border-collapse: collapse; }
+.h-tbl thead th {
+  padding: 10px 16px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--text-xs);
+  border-bottom: 1px solid var(--sand);
+  text-align: left;
+  background: var(--ivory);
+  white-space: nowrap;
+}
+.h-tbl tbody tr { border-bottom: 1px solid var(--ivory); cursor: pointer; transition: background .12s; }
+.h-tbl tbody tr:last-child { border-bottom: none; }
+.h-tbl tbody tr:hover { background: #fdfaf6; }
+.h-tbl td { padding: 12px 16px; font-size: 12px; vertical-align: middle; font-weight: 300; }
+.h-no {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+.h-date, .h-cli { color: var(--text-xs); font-size: 11px; }
+.h-site { font-weight: 400; color: var(--text); }
+.h-itm { color: var(--text-xs); font-size: 11px; text-align: center; }
+.h-amt {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--accent);
+  text-align: right;
+}
+.h-prf { font-size: 12px; text-align: right; display: none; }
+.h-thp { display: none; }
+body.adm .h-prf { display: table-cell; }
+body.adm .h-thp { display: table-cell; }
+.h-act { display: flex; gap: 5px; justify-content: flex-end; }
+.abtn {
+  padding: 4px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--sand);
+  background: var(--white);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all .2s;
+  color: var(--text-s);
+}
+.abtn-open { border-color: var(--accent); color: var(--accent); }
+.abtn-open:hover { background: var(--accent); color: var(--white); }
+.abtn-del:hover { border-color: var(--danger); color: var(--danger); }
+.abtn-sync { border-color: var(--accent2); color: var(--accent2); }
+.h-empty { text-align: center; padding: 60px; color: var(--text-xs); }
+
+/* ── SETTINGS SCREEN ── */
+#set-screen {
+  flex-direction: column;
+  padding: 22px;
+  overflow-y: auto;
+  background: var(--cream);
+}
+.cfg-card {
+  background: var(--white);
+  border-radius: var(--r);
+  border: 1px solid var(--sand);
+  padding: 22px;
+  max-width: 660px;
+  margin-bottom: 14px;
+}
+.cfg-ttl {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.cfg-desc { font-size: 12px; color: var(--text-s); margin-bottom: 16px; font-weight: 300; line-height: 1.7; }
+.cfg-inp {
+  width: 100%;
+  padding: 9px 12px;
+  border: 1px solid var(--sand);
+  border-radius: var(--r-sm);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text);
+  background: var(--cream);
+  outline: none;
+  margin-bottom: 10px;
+  transition: all .2s;
+}
+.cfg-inp:focus { border-color: var(--accent); background: var(--white); }
+.cfg-btn {
+  padding: 8px 22px;
+  border-radius: 20px;
+  border: 1px solid var(--accent);
+  background: var(--white);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all .2s;
+}
+.cfg-btn:hover { background: var(--accent); color: var(--white); }
+
+/* user-only visible setting */
+.admin-only { display: none; }
+body.adm .admin-only { display: block; }
+
+/* sheets config in left panel (admin only) */
+.sh-box {
+  background: var(--ivory);
+  border: 1px solid var(--sand);
+  border-radius: var(--r-sm);
+  padding: 12px;
+}
+.sh-box input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--sand);
+  border-radius: var(--r-sm);
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  background: var(--white);
+  outline: none;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.sh-box input:focus { border-color: var(--accent); }
+.sh-btn {
+  width: 100%;
+  padding: 7px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--accent);
+  background: var(--white);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+  transition: all .2s;
+}
+.sh-btn:hover { background: var(--accent); color: var(--white); }
+
+/* col table */
+.col-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.col-tbl th { background: var(--ivory); padding: 7px 12px; text-align: left; font-family: 'Josefin Sans', sans-serif; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: var(--text-xs); font-weight: 600; border-bottom: 1px solid var(--sand); }
+.col-tbl td { padding: 7px 12px; border-bottom: 1px solid var(--ivory); font-weight: 300; color: var(--text-s); }
+.col-tbl tr:last-child td { border-bottom: none; }
+
+/* GAS code */
+.code-box {
+  background: var(--text);
+  border-radius: var(--r-sm);
+  padding: 14px;
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #e8e0d0;
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+.copy-btn {
+  padding: 5px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--accent);
+  background: var(--white);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  cursor: pointer;
+}
+.copy-btn:hover { background: var(--accent); color: var(--white); }
+
+/* ── ADMIN MODAL ── */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(61,53,48,.3);
+  backdrop-filter: blur(4px);
+  z-index: 500;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modal-bg.on { display: flex; }
+.modal {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 32px;
+  width: 300px;
+  border: 1px solid var(--sand);
+  animation: popUp .2s ease;
+}
+.modal-ttl {
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.modal-desc { font-size: 12px; color: var(--text-s); margin-bottom: 18px; font-weight: 300; }
+.modal-inp {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--sand);
+  border-radius: var(--r-sm);
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 4px;
+  outline: none;
+  margin-bottom: 12px;
+  font-family: 'Josefin Sans', sans-serif;
+  color: var(--text);
+  background: var(--cream);
+}
+.modal-inp:focus { border-color: var(--accent); background: var(--white); }
+.modal-btns { display: flex; gap: 8px; }
+.mbtn-cancel {
+  flex: 1; padding: 8px;
+  border: 1px solid var(--sand); border-radius: 20px;
+  background: var(--white); cursor: pointer;
+  font-family: 'Josefin Sans', sans-serif; font-size: 11px;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--text-s);
+}
+.mbtn-ok {
+  flex: 1; padding: 8px;
+  border: 1px solid var(--accent); border-radius: 20px;
+  background: var(--accent); color: var(--white); cursor: pointer;
+  font-family: 'Josefin Sans', sans-serif; font-size: 11px;
+  letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+}
+.modal-err { color: var(--danger); font-size: 11px; text-align: center; margin-top: 4px; display: none; letter-spacing: 1px; }
+
+/* ── TOAST ── */
+.toast {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--text);
+  color: var(--cream);
+  padding: 9px 22px;
+  border-radius: 24px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 1px;
+  z-index: 999;
+  transition: transform .25s ease;
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+}
+.toast.on { transform: translateX(-50%) translateY(0); }
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: var(--sand); border-radius: 2px; }
+
+@keyframes fadeUp { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes popUp { from { opacity: 0; transform: scale(.96) translateY(4px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+@media print {
+  .hdr, .left, .del-btn, .qbtn, .ninp, .acol, .srow.sar, .arow { display: none !important; }
+  .screen.on { display: block !important; height: auto !important; }
+  #est-screen .right { padding: 0; }
+  #hist-screen, #set-screen { display: none !important; }
+  body { background: #fff; }
+  .cg { break-inside: avoid; border: 1px solid #ddd; }
+  .q-hdr, .sum-card { border: 1px solid #ddd; }
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="brand">
+    <div class="brand-mark">H</div>
+    <div>
+      <div class="brand-name">ひかりハウジング株式会社</div>
+      <div class="brand-sub">Option Estimate System</div>
+    </div>
+  </div>
+  <div class="hdr-nav">
+    <button class="ntab on" id="tab-est" onclick="goTo('est')">Estimate</button>
+    <button class="ntab" id="tab-hist" onclick="goTo('hist')">History</button>
+    <button class="ntab" id="tab-set" onclick="goTo('set')">Settings</button>
+    <button class="ntab adm-tab" id="tab-adm" onclick="toggleAdm()">Admin</button>
+  </div>
+  <div class="hdr-btns">
+    <button class="hbtn" onclick="syncMaster()">↻ Sync</button>
+    <button class="hbtn hbtn-save" onclick="doSave()">Save</button>
+    <button class="hbtn hbtn-pdf" onclick="doPDF()">PDF</button>
+  </div>
+</header>
+
+<!-- ── 見積作成 ── -->
+<div class="screen on" id="est-screen">
+  <div class="left">
+    <!-- 見積情報 -->
+    <div class="sec">
+      <div class="sec-ttl">見積情報</div>
+      <div class="fg"><label class="lbl">顧客名</label><input class="inp" id="in-cli" placeholder="田中 太郎 様" oninput="updHdr()"></div>
+      <div class="fg"><label class="lbl">物件名・現場</label><input class="inp" id="in-site" placeholder="渋谷区〇〇301号室" oninput="updHdr()"></div>
+      <div class="fg"><label class="lbl">建物シリーズ</label><input class="inp" id="in-series" placeholder="例：Aシリーズ・プレミアム等" oninput="updHdr()"></div>
+      <div class="g2">
+        <div class="fg"><label class="lbl">担当者</label><input class="inp" id="in-staff"></div>
+        <div class="fg"><label class="lbl">見積番号</label><input class="inp" id="in-qno" oninput="updHdr()"></div>
+      </div>
+    </div>
+
+    <!-- マスター同期（管理者のみ表示） -->
+    <div class="sec admin-only">
+      <div class="sec-ttl">Master Data</div>
+      <div class="sh-box">
+        <input id="sh-id" placeholder="Spreadsheet ID">
+        <input id="sh-range" placeholder="例: 見積マスタ!A4:H35" value="見積マスタ!A4:H35">
+        <button class="sh-btn" onclick="loadSheets()">Load Master</button>
+      </div>
+    </div>
+
+    <!-- カテゴリ -->
+    <div class="sec">
+      <div class="sec-ttl">Category</div>
+      <div class="ctabs" id="cat-tabs"></div>
+    </div>
+
+    <!-- 項目選択 -->
+    <div class="sec" style="flex:1;overflow-y:auto;padding-bottom:16px">
+      <div class="sec-ttl">Items</div>
+      <div class="srch">
+        <span class="srch-ico">🔍</span>
+        <input type="text" id="srch" placeholder="項目名で検索..." oninput="renderList()">
+      </div>
+      <div class="mlist" id="m-list"></div>
+    </div>
+  </div>
+
+  <div class="right">
+    <div class="q-hdr">
+      <div>
+        <div class="q-no" id="d-qno">No. EST-001</div>
+        <div class="q-site" id="d-site">物件名・現場を入力してください</div>
+        <div class="q-cli" id="d-cli">顧客名を入力してください</div>
+        <div class="q-series" id="d-series"></div>
+      </div>
+      <div class="q-totbox">
+        <div class="q-lbl">Total ( tax incl. )</div>
+        <div class="q-amt" id="d-total">¥ 0</div>
+        <div class="q-tax" id="d-tax">消費税（10%）: ¥0</div>
+      </div>
+    </div>
+
+    <div id="quote-body"></div>
+
+    <div class="sum-card" id="sum-card" style="display:none">
+      <div class="sum-grid">
+        <div>
+          <div class="srow"><span class="sl">Subtotal</span><span class="sv" id="s-sub">¥ 0</span></div>
+          <div class="srow"><span class="sl">Tax ( 10% )</span><span class="sv" id="s-tax">¥ 0</span></div>
+          <div class="srow stot"><span class="sl">Total</span><span class="sv" id="s-tot">¥ 0</span></div>
+          <div class="ssep"></div>
+          <div class="srow sar"><span class="sl">🔐 原価合計</span><span class="sv" id="s-cost">¥ 0</span></div>
+          <div class="srow sar"><span class="sl">🔐 粗利額</span><span class="sv" id="s-profit">¥ 0</span></div>
+          <div class="srow sar"><span class="sl">🔐 粗利率</span><span class="sv" id="s-margin">0%</span></div>
+        </div>
+        <div class="memo-sec">
+          <div class="mlbl">Validity</div>
+          <input class="v-inp" id="in-valid" type="date">
+          <div class="mlbl" style="margin-top:8px">Remarks</div>
+          <textarea class="m-inp" id="in-memo" placeholder="工事条件・注意事項など..."></textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 作成履歴 ── -->
+<div class="screen" id="hist-screen">
+  <div class="hist-top">
+    <div>
+      <div class="hist-ttl">History</div>
+      <div class="hist-cnt" id="hist-cnt"></div>
+    </div>
+    <button class="new-btn" onclick="newEst()">+ New Estimate</button>
+  </div>
+  <div class="h-wrap">
+    <table class="h-tbl">
+      <thead><tr>
+        <th>No.</th><th>Date</th><th>物件名</th><th>顧客名</th>
+        <th>Items</th><th style="text-align:right">Total</th>
+        <th class="h-thp" style="text-align:right">🔐 粗利</th>
+        <th style="text-align:right">Action</th>
+      </tr></thead>
+      <tbody id="hist-body"></tbody>
+    </table>
+    <div class="h-empty" id="hist-empty" style="display:none">
+      <div style="font-size:32px;margin-bottom:10px;opacity:.3">○</div>
+      <div style="font-family:'Josefin Sans',sans-serif;font-size:11px;letter-spacing:1px;color:var(--text-xs)">No estimates saved yet</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 設定 ── -->
+<div class="screen" id="set-screen">
+  <!-- ユーザー向け：シート情報のみ -->
+  <div class="cfg-card">
+    <div class="cfg-ttl">Spreadsheet</div>
+    <div class="cfg-desc">接続中のスプレッドシートの列構成です。</div>
+    <table class="col-tbl">
+      <thead><tr><th>列</th><th>内容</th><th>備考</th></tr></thead>
+      <tbody>
+        <tr><td>A</td><td>カテゴリ</td><td>空白の場合は直上を継承</td></tr>
+        <tr><td>B</td><td>項目名</td><td>必須</td></tr>
+        <tr><td>C</td><td>仕様</td><td>型番・サイズ等</td></tr>
+        <tr><td>D</td><td>単位</td><td>台・式・㎡ 等</td></tr>
+        <tr><td>E</td><td>販売単価</td><td>お客様への提示金額（税抜）</td></tr>
+        <tr><td>F</td><td>備考</td><td>材工共・支給品 等</td></tr>
+        <tr><td>H</td><td>原価合計</td><td>管理者のみ表示</td></tr>
+      </tbody>
+    </table>
+    <div id="sync-status" style="margin-top:12px;font-size:11px;color:var(--accent2)"></div>
+  </div>
+
+  <!-- 管理者向け：追加設定 -->
+  <div class="cfg-card admin-only">
+    <div class="cfg-ttl">🔐 Spreadsheet Connection</div>
+    <div class="cfg-desc">スプレッドシートIDと読み込み範囲を設定します。</div>
+    <label class="lbl">Spreadsheet ID</label>
+    <input class="cfg-inp" id="cfg-shid" placeholder="URLの /d/ 以降の文字列">
+    <label class="lbl" style="margin-top:2px">読み込み範囲</label>
+    <input class="cfg-inp" id="cfg-rng" value="見積マスタ!A4:H35">
+    <button class="cfg-btn" onclick="saveSheetsCfg()">Save & Load</button>
+    <div style="margin-top:12px" id="sync-status2"></div>
+  </div>
+
+  <div class="cfg-card admin-only">
+    <div class="cfg-ttl">🔐 History Auto-Save ( GAS )</div>
+    <div class="cfg-desc">見積保存時にスプレッドシートの「履歴」シートへ自動追記します。</div>
+    <label class="lbl">GAS WebアプリURL</label>
+    <input class="cfg-inp" id="cfg-gas" placeholder="https://script.google.com/macros/s/...../exec">
+    <button class="cfg-btn" onclick="saveGasCfg()">Save URL</button>
+    <div style="margin-top:14px">
+      <div style="font-family:'Josefin Sans',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-xs);margin-bottom:8px">Apps Script Code</div>
+      <div class="code-box" id="gas-code">function doPost(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheetByName("履歴") || ss.insertSheet("履歴");
+  if (sh.getLastRow() === 0) {
+    const hdr = ["見積番号","作成日","物件名","顧客名","担当者",
+                 "項目数","小計","消費税","合計","原価合計","粗利額","粗利率","備考"];
+    sh.appendRow(hdr);
+    sh.getRange(1,1,1,hdr.length)
+      .setFontWeight("bold").setBackground("#3d3530").setFontColor("white");
+  }
+  const d = JSON.parse(e.postData.contents);
+  sh.appendRow([d.quoteNo,d.date,d.site,d.client,d.staff,
+    d.itemCount,d.subtotal,d.tax,d.total,d.cost,d.profit,d.marginRate+"%",d.memo]);
+  return ContentService
+    .createTextOutput(JSON.stringify({status:"ok"}))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+function doGet() {
+  return ContentService
+    .createTextOutput(JSON.stringify({status:"ready"}))
+    .setMimeType(ContentService.MimeType.JSON);
+}</div>
+      <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+    </div>
+  </div>
+
+  <div class="cfg-card admin-only">
+    <div class="cfg-ttl">🔐 Admin Password</div>
+    <div class="cfg-desc">管理者モードのパスワードを変更します。（初期値: 1234）</div>
+    <label class="lbl">New Password</label>
+    <input class="cfg-inp" id="cfg-pw" type="password" placeholder="4文字以上">
+    <button class="cfg-btn" onclick="savePW()">Update</button>
+  </div>
+</div>
+
+<!-- Admin Modal -->
+<div class="modal-bg" id="adm-modal">
+  <div class="modal">
+    <div class="modal-ttl">Admin Mode</div>
+    <div class="modal-desc">パスワードを入力してください</div>
+    <input class="modal-inp" id="adm-pw" type="password" placeholder="· · · ·" onkeydown="if(event.key==='Enter')chkPW()">
+    <div class="modal-err" id="adm-err">パスワードが違います</div>
+    <div class="modal-btns">
+      <button class="mbtn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="mbtn-ok" onclick="chkPW()">Enter</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const K = { PW:'op_pw', HIST:'op_hist', SH:'op_sh', GAS:'op_gas' };
+
+let master = [
+  {id:1,cat:'キッチン',name:'ペニンシュラタイプ（オフェリア/タカラ）',spec:'w2550 d950 h850',unit:'台',price:714300,cost:500000,note:''},
+  {id:2,cat:'キッチン',name:'I型タイプ（オフェリア/タカラ）',spec:'w2550 d650 h850',unit:'台',price:500000,cost:350000,note:''},
+  {id:3,cat:'バス',name:'1618サイズ（リラクシア/タカラ）',spec:'1650×1850',unit:'台',price:571500,cost:400000,note:''},
+  {id:4,cat:'バス',name:'1616サイズ（リラクシア/タカラ）',spec:'1650×1650',unit:'台',price:457200,cost:320000,note:''},
+  {id:5,cat:'洗面',name:'w750サイズ（エリシオ/タカラ）',spec:'750×550×1950',unit:'台',price:121500,cost:85000,note:''},
+  {id:6,cat:'洗面',name:'W900サイズ（エリシオ/タカラ）',spec:'900×550×1950',unit:'台',price:171500,cost:120000,note:''},
+  {id:7,cat:'外装工事',name:'親水16（窯業サイディング/Kmew）',spec:'○○シリーズ',unit:'㎡',price:8500,cost:5500,note:''},
+  {id:8,cat:'外装工事',name:'親水18（窯業サイディング/Kmew）',spec:'○○シリーズ',unit:'㎡',price:11600,cost:7500,note:''},
+  {id:9,cat:'外部建具工事',name:'引違窓（サーモスL/LIXIL）',spec:'16020（204用）',unit:'台',price:114300,cost:80000,note:''},
+  {id:10,cat:'外部建具工事',name:'引違窓（サーモスL/LIXIL）',spec:'15020（在来用）',unit:'台',price:128600,cost:90000,note:''},
+  {id:11,cat:'外部建具工事',name:'シャッター付引違窓（サーモスL/LIXIL）',spec:'16020（204用）',unit:'台',price:192900,cost:135000,note:''},
+  {id:12,cat:'外部建具工事',name:'シャッター付引違窓（サーモスL/LIXIL）',spec:'15020（在来用）',unit:'台',price:221500,cost:155000,note:''},
+  {id:13,cat:'内部建具工事',name:'片開戸00デザイン（イエリア/大建工業）',spec:'w755×H2000',unit:'台',price:50000,cost:35000,note:''},
+  {id:14,cat:'内部建具工事',name:'片引戸00デザイン上吊（イエリア/大建工業）',spec:'w1650×H2000',unit:'台',price:78600,cost:55000,note:''},
+  {id:15,cat:'棚・備品工事',name:'可動棚5段D300-3尺（南海プライウッド）',spec:'w785×d300',unit:'台',price:47200,cost:33000,note:'材工共'},
+  {id:16,cat:'棚・備品工事',name:'可動棚5段D450-3尺（南海プライウッド）',spec:'w785×d450',unit:'台',price:68600,cost:48000,note:'材工共'},
+  {id:17,cat:'内装仕上工事',name:'クロス工事（A級/サンゲツ）',spec:'○○シリーズ',unit:'㎡',price:1400,cost:950,note:''},
+  {id:18,cat:'内装仕上工事',name:'クロス工事（AA級/サンゲツ）',spec:'○○シリーズ',unit:'㎡',price:2000,cost:1250,note:''},
+  {id:19,cat:'内装造作工事',name:'カウンター設置（大建工業）L型ブラケット含',spec:'w〜900×d500',unit:'枚',price:79000,cost:55000,note:'材工共'},
+];
+
+let qi=[], hist=[], selCat='すべて', isAdm=false, nid=200;
+
+window.onload = () => {
+  try { hist = JSON.parse(localStorage.getItem(K.HIST)||'[]'); } catch(e){ hist=[]; }
+  const sh = JSON.parse(localStorage.getItem(K.SH)||'{}');
+  if(sh.id){ document.getElementById('sh-id').value=sh.id; document.getElementById('cfg-shid').value=sh.id; }
+  if(sh.range){ document.getElementById('sh-range').value=sh.range; document.getElementById('cfg-rng').value=sh.range; }
+  const gas = localStorage.getItem(K.GAS)||'';
+  if(gas) document.getElementById('cfg-gas').value=gas;
+  const d=new Date(); d.setMonth(d.getMonth()+1);
+  document.getElementById('in-valid').value=d.toISOString().split('T')[0];
+  const qno=mkQno(); document.getElementById('in-qno').value=qno;
+  document.getElementById('d-qno').textContent='No. '+qno;
+  renderCats(); renderList(); renderQuote();
+};
+
+function mkQno(){
+  const n=new Date();
+  return 'EST-'+n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+String(Math.floor(Math.random()*900)+100);
+}
+
+function goTo(v){
+  document.querySelectorAll('.screen').forEach(e=>e.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(e=>e.classList.remove('on'));
+  document.getElementById(v+'-screen').classList.add('on');
+  document.getElementById('tab-'+v).classList.add('on');
+  if(v==='hist') renderHist();
+}
+
+// ADMIN
+function toggleAdm(){
+  if(isAdm){
+    isAdm=false; document.body.classList.remove('adm');
+    document.getElementById('tab-adm').textContent='Admin';
+    toast('Admin mode off');
+  } else {
+    document.getElementById('adm-pw').value='';
+    document.getElementById('adm-err').style.display='none';
+    document.getElementById('adm-modal').classList.add('on');
+    setTimeout(()=>document.getElementById('adm-pw').focus(),80);
+  }
+}
+function closeModal(){ document.getElementById('adm-modal').classList.remove('on'); }
+function chkPW(){
+  const pw=document.getElementById('adm-pw').value;
+  if(pw===(localStorage.getItem(K.PW)||'1234')){
+    isAdm=true; document.body.classList.add('adm');
+    document.getElementById('tab-adm').textContent='🔓 Admin ON';
+    closeModal(); renderQuote(); renderHist();
+    toast('🔓 管理者モード：原価・粗利を表示中');
+  } else {
+    document.getElementById('adm-err').style.display='block';
+    document.getElementById('adm-pw').value='';
+    document.getElementById('adm-pw').focus();
+  }
+}
+function savePW(){
+  const pw=document.getElementById('cfg-pw').value;
+  if(pw.length<4){ toast('4文字以上で設定してください'); return; }
+  localStorage.setItem(K.PW,pw); document.getElementById('cfg-pw').value='';
+  toast('Password updated');
+}
+
+// CATEGORIES
+function renderCats(){
+  const cats=['すべて',...[...new Set(master.map(m=>m.cat))]];
+  document.getElementById('cat-tabs').innerHTML=cats.map(c=>
+    `<button class="ctab ${c===selCat?'on':''}" onclick="selC('${c}')">${c}</button>`
+  ).join('');
+}
+function selC(c){ selCat=c; renderCats(); renderList(); }
+
+// MASTER LIST
+function renderList(){
+  const q=document.getElementById('srch').value.toLowerCase();
+  const used=new Set(qi.map(i=>i.mid));
+  const fl=master.filter(m=>
+    (selCat==='すべて'||m.cat===selCat)&&
+    (!q||m.name.toLowerCase().includes(q)||m.spec.toLowerCase().includes(q))
+  );
+  const el=document.getElementById('m-list');
+  if(!fl.length){ el.innerHTML='<div style="text-align:center;padding:20px;color:var(--text-xs);font-family:\'Josefin Sans\',sans-serif;font-size:11px;letter-spacing:1px">No items found</div>'; return; }
+  el.innerHTML=fl.map(m=>{
+    const added=used.has(m.id);
+    return `<div class="mitem ${added?'added':''}" onclick="addItem(${m.id})">
+      <div class="mi-body">
+        <div class="mi-name">${m.name}</div>
+        <div class="mi-meta">${m.spec}${m.note?' · '+m.note:''} · ${m.unit}</div>
+      </div>
+      <div class="mi-price">${fp(m.price)}</div>
+      <button class="madd-btn ${added?'done':''}">${added?'✓':'+'}</button>
+    </div>`;
+  }).join('');
+}
+
+// ADD/REMOVE
+function addItem(mid){
+  const m=master.find(m=>m.id===mid); if(!m) return;
+  const ex=qi.find(q=>q.mid===mid);
+  if(ex){ ex.qty++; toast(`${m.name}  +1`); }
+  else{
+    qi.push({id:nid++,mid:m.id,cat:m.cat,name:m.name,spec:m.spec,unit:m.unit,up:m.price,uc:m.cost,note:m.note||'',qty:1});
+    toast(`${m.name} を追加`);
+  }
+  renderList(); renderQuote();
+}
+function remItem(id){ qi=qi.filter(q=>q.id!==id); renderList(); renderQuote(); }
+function chgQty(id,d){ const it=qi.find(q=>q.id===id); if(it){ it.qty=Math.max(1,it.qty+d); renderQuote(); } }
+function chgNote(id,v){ const it=qi.find(q=>q.id===id); if(it) it.note=v; }
+
+// RENDER QUOTE
+function renderQuote(){
+  const body=document.getElementById('quote-body');
+  const sc=document.getElementById('sum-card');
+  if(!qi.length){
+    body.innerHTML=`<div class="empty"><div class="empty-ico">○</div><p>select items from the left panel</p></div>`;
+    sc.style.display='none'; updTotals(0,0); return;
+  }
+  sc.style.display='block';
+  const grps={};
+  qi.forEach(it=>{ if(!grps[it.cat]) grps[it.cat]=[]; grps[it.cat].push(it); });
+
+  body.innerHTML=Object.entries(grps).map(([cat,its])=>{
+    const cSub=its.reduce((s,i)=>s+i.up*i.qty,0);
+    const cCost=its.reduce((s,i)=>s+i.uc*i.qty,0);
+    const cMar=cSub>0?Math.round((cSub-cCost)/cSub*100):0;
+    const admHdr=`<th class="acol" style="font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--admin)">🔐 Cost</th><th class="acol" style="font-family:'Josefin Sans',sans-serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--admin)">Margin</th>`;
+    const admInfo=isAdm?`<span style="font-size:10px;color:var(--admin);margin-right:8px;font-family:'Josefin Sans',sans-serif;letter-spacing:1px">${cMar}%</span>`:'';
+    const rows=its.map(it=>{
+      const tot=it.up*it.qty, cost=it.uc*it.qty;
+      const mar=tot>0?Math.round((tot-cost)/tot*100):0;
+      const mc=mar>=35?'mg-g':mar>=20?'mg-w':'mg-b';
+      return `<tr>
+        <td class="td-name">${it.name}<br><span class="td-spec">${it.spec}</span></td>
+        <td><div class="qty-wrap">
+          <button class="qbtn" onclick="chgQty(${it.id},-1)">−</button>
+          <span class="qnum">${it.qty}</span>
+          <button class="qbtn" onclick="chgQty(${it.id},+1)">+</button>
+          <span class="td-unit">${it.unit}</span>
+        </div></td>
+        <td class="td-uprice">${fp(it.up)}</td>
+        <td class="td-tot">${fp(tot)}</td>
+        <td class="acol tdc" style="color:var(--text-xs);text-align:right;font-family:'Josefin Sans',sans-serif;font-size:11px">${fp(it.uc)}<br>${fp(cost)}</td>
+        <td class="acol ${mc}" style="text-align:right;font-family:'Josefin Sans',sans-serif;font-size:12px">${mar}%</td>
+        <td><input class="ninp" placeholder="備考" value="${esc(it.note)}" onchange="chgNote(${it.id},this.value)"></td>
+        <td><button class="del-btn" onclick="remItem(${it.id})">×</button></td>
+      </tr>
+      <tr class="arow">
+        <td colspan="8" style="font-family:'Josefin Sans',sans-serif;letter-spacing:.5px;color:var(--admin);font-size:10px">
+          🔐 原価 ${fp(it.uc)}/単 × ${it.qty} = ${fp(cost)}　粗利 ${fp(tot-cost)}
+        </td>
+      </tr>`;
+    }).join('');
+    return `<div class="cg">
+      <div class="cg-hdr">
+        <div class="cg-name"><div class="cg-dot"></div>${cat}</div>
+        <div style="display:flex;align-items:center">${admInfo}<div class="cg-sub">${fp(cSub)}</div></div>
+      </div>
+      <table class="tbl">
+        <thead><tr>
+          <th style="width:32%">Item</th><th style="width:16%">Qty</th>
+          <th style="width:12%">Unit</th><th style="width:12%">Amount</th>
+          ${admHdr}<th style="width:10%">Note</th><th style="width:5%"></th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+  }).join('');
+
+  const sub=qi.reduce((s,i)=>s+i.up*i.qty,0);
+  const cost=qi.reduce((s,i)=>s+i.uc*i.qty,0);
+  updTotals(sub,cost);
+}
+
+function updTotals(sub,cost){
+  const tax=Math.floor(sub*.1), tot=sub+tax;
+  const prof=sub-cost, mar=sub>0?(prof/sub*100).toFixed(1):0;
+  document.getElementById('s-sub').textContent=fp(sub);
+  document.getElementById('s-tax').textContent=fp(tax);
+  document.getElementById('s-tot').textContent=fp(tot);
+  document.getElementById('s-cost').textContent=fp(cost);
+  document.getElementById('s-profit').textContent=fp(prof);
+  document.getElementById('s-margin').textContent=mar+'%';
+  document.getElementById('d-total').textContent='¥ '+tot.toLocaleString();
+  document.getElementById('d-tax').textContent=`消費税（10%）: ¥${tax.toLocaleString()}`;
+}
+
+function updHdr(){
+  document.getElementById('d-cli').textContent=document.getElementById('in-cli').value||'顧客名を入力してください';
+  document.getElementById('d-site').textContent=document.getElementById('in-site').value||'物件名・現場を入力してください';
+  document.getElementById('d-qno').textContent='No. '+(document.getElementById('in-qno').value||'EST-001');
+  const series=document.getElementById('in-series').value;
+  const ds=document.getElementById('d-series');
+  if(series){ ds.textContent=series; ds.style.display='inline-block'; }
+  else { ds.style.display='none'; }
+}
+
+// SAVE
+async function doSave(){
+  if(!qi.length){ toast('見積項目が選択されていません'); return; }
+  const sub=qi.reduce((s,i)=>s+i.up*i.qty,0);
+  const tax=Math.floor(sub*.1), tot=sub+tax;
+  const cost=qi.reduce((s,i)=>s+i.uc*i.qty,0);
+  const prof=sub-cost, mar=sub>0?(prof/sub*100).toFixed(1):0;
+  const rec={
+    id:Date.now(), quoteNo:document.getElementById('in-qno').value||mkQno(),
+    date:new Date().toLocaleDateString('ja-JP',{year:'numeric',month:'2-digit',day:'2-digit'}),
+    site:document.getElementById('in-site').value||'（未入力）',
+    client:document.getElementById('in-cli').value||'（未入力）',
+    staff:document.getElementById('in-staff').value||'',
+    series:document.getElementById('in-series').value||'',
+    itemCount:qi.length, subtotal:sub, tax, total:tot, cost, profit:prof, marginRate:mar,
+    memo:document.getElementById('in-memo').value||'',
+    validity:document.getElementById('in-valid').value||'',
+    items:JSON.parse(JSON.stringify(qi)), sync:'local'
+  };
+  hist.unshift(rec);
+  localStorage.setItem(K.HIST,JSON.stringify(hist));
+  toast('Saved — sending to spreadsheet...');
+  const gasUrl=localStorage.getItem(K.GAS)||'';
+  if(gasUrl){
+    try{
+      const res=await fetch(gasUrl,{method:'POST',headers:{'Content-Type':'text/plain'},
+        body:JSON.stringify({quoteNo:rec.quoteNo,date:rec.date,site:rec.site,client:rec.client,
+          staff:rec.staff,itemCount:rec.itemCount,subtotal:rec.subtotal,tax:rec.tax,total:rec.total,
+          cost:rec.cost,profit:rec.profit,marginRate:rec.marginRate,memo:rec.memo})});
+      const data=await res.json();
+      if(data.status==='ok'){ rec.sync='ok'; localStorage.setItem(K.HIST,JSON.stringify(hist)); toast('✓ スプレッドシートの履歴に保存しました'); }
+      else throw new Error();
+    }catch(e){ rec.sync='err'; localStorage.setItem(K.HIST,JSON.stringify(hist)); toast('⚠ ローカル保存完了 / スプレッドシート送信失敗'); }
+  } else toast('Saved to local history');
+}
+
+// HISTORY
+function renderHist(){
+  const tb=document.getElementById('hist-body');
+  const em=document.getElementById('hist-empty');
+  document.getElementById('hist-cnt').textContent=hist.length+' records';
+  if(!hist.length){ em.style.display='block'; tb.innerHTML=''; return; }
+  em.style.display='none';
+  tb.innerHTML=hist.map(r=>{
+    const pc=r.marginRate>=35?'color:var(--accent2)':r.marginRate>=20?'color:#c47a3a':'color:var(--danger)';
+    const sb=r.sync==='ok'?'<span style="font-size:10px;color:var(--accent2);margin-left:4px">✓</span>':r.sync==='err'?'<span style="font-size:10px;color:var(--danger);margin-left:4px">!</span>':'';
+    return `<tr onclick="loadEst(${r.id})">
+      <td><div class="h-no">${r.quoteNo}${sb}</div></td>
+      <td class="h-date">${r.date}</td><td class="h-site">${r.site}</td><td class="h-cli">${r.client}</td>
+      <td class="h-itm">${r.itemCount}</td><td class="h-amt">${fp(r.total)}</td>
+      <td class="h-prf" style="${pc}">${fp(r.profit)}<br><span style="font-size:10px">(${r.marginRate}%)</span></td>
+      <td><div class="h-act" onclick="event.stopPropagation()">
+        <button class="abtn abtn-open" onclick="loadEst(${r.id})">Open</button>
+        ${r.sync!=='ok'?`<button class="abtn abtn-sync" onclick="retrySync(${r.id})">Sync</button>`:''}
+        <button class="abtn abtn-del" onclick="delEst(${r.id})">Del</button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+function loadEst(id){
+  const r=hist.find(h=>h.id===id); if(!r) return;
+  qi=JSON.parse(JSON.stringify(r.items));
+  document.getElementById('in-qno').value=r.quoteNo;
+  document.getElementById('in-cli').value=r.client==='（未入力）'?'':r.client;
+  document.getElementById('in-site').value=r.site==='（未入力）'?'':r.site;
+  document.getElementById('in-staff').value=r.staff||'';
+  document.getElementById('in-series').value=r.series||'';
+  document.getElementById('in-memo').value=r.memo||'';
+  document.getElementById('in-valid').value=r.validity||'';
+  updHdr(); renderCats(); renderList(); renderQuote();
+  goTo('est'); toast(`${r.quoteNo} を読み込みました`);
+}
+function delEst(id){
+  if(!confirm('この履歴を削除しますか？')) return;
+  hist=hist.filter(h=>h.id!==id);
+  localStorage.setItem(K.HIST,JSON.stringify(hist)); renderHist(); toast('Deleted');
+}
+function newEst(){
+  qi=[];
+  ['in-cli','in-site','in-staff','in-series','in-memo'].forEach(id=>document.getElementById(id).value='');
+  const qno=mkQno(); document.getElementById('in-qno').value=qno;
+  updHdr(); renderCats(); renderList(); renderQuote();
+  goTo('est'); toast('New estimate started');
+}
+async function retrySync(id){
+  const r=hist.find(h=>h.id===id); if(!r) return;
+  const gasUrl=localStorage.getItem(K.GAS)||'';
+  if(!gasUrl){ toast('GAS URLを設定してください'); return; }
+  toast('Syncing...');
+  try{
+    const res=await fetch(gasUrl,{method:'POST',headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify({quoteNo:r.quoteNo,date:r.date,site:r.site,client:r.client,staff:r.staff,
+        itemCount:r.itemCount,subtotal:r.subtotal,tax:r.tax,total:r.total,
+        cost:r.cost,profit:r.profit,marginRate:r.marginRate,memo:r.memo})});
+    const data=await res.json();
+    if(data.status==='ok'){ r.sync='ok'; localStorage.setItem(K.HIST,JSON.stringify(hist)); renderHist(); toast('✓ Synced'); }
+    else throw new Error();
+  }catch(e){ toast('Sync failed'); }
+}
+
+// SHEETS
+async function loadSheets(){
+  const id=(document.getElementById('sh-id').value||'').trim();
+  const range=(document.getElementById('sh-range').value||'見積マスタ!A4:H35').trim();
+  if(!id){ toast('Spreadsheet IDを入力してください'); return; }
+  localStorage.setItem(K.SH,JSON.stringify({id,range}));
+  toast('Loading...');
+  const url=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:csv&range=${encodeURIComponent(range)}`;
+  try{
+    const res=await fetch(url); if(!res.ok) throw new Error();
+    const txt=await res.text();
+    const items=parseCSV(txt);
+    if(!items.length){ toast('データが取得できませんでした'); return; }
+    master=items; selCat='すべて';
+    renderCats(); renderList();
+    const msg=`✓ ${items.length}件の項目を読み込みました`;
+    toast(msg);
+    document.getElementById('sync-status').textContent='最終同期: '+new Date().toLocaleString('ja-JP');
+    if(document.getElementById('sync-status2')) document.getElementById('sync-status2').textContent='最終同期: '+new Date().toLocaleString('ja-JP');
+  }catch(e){ toast('読み込み失敗。公開設定を確認してください'); }
+}
+function syncMaster(){
+  const sh=JSON.parse(localStorage.getItem(K.SH)||'{}');
+  if(!sh.id){ toast('設定タブでIDを入力してください'); return; }
+  document.getElementById('sh-id').value=sh.id;
+  document.getElementById('sh-range').value=sh.range||'見積マスタ!A4:H35';
+  loadSheets();
+}
+function parseCSV(csv){
+  const lines=csv.split('\n').filter(l=>l.trim());
+  const items=[]; let cur=''; let nid=1000;
+  lines.forEach(line=>{
+    const c=splitLine(line);
+    const cat=cl(c[0]), name=cl(c[1]), spec=cl(c[2]), unit=cl(c[3])||'式';
+    const note=cl(c[5]);
+    if(cat) cur=cat;
+    const price=pn(c[4]), cost=pn(c[7]);
+    if(name&&price>0) items.push({id:nid++,cat:cur||'その他',name,spec,unit,price,cost,note});
+  });
+  return items;
+}
+function splitLine(l){ const r=[]; let c='',q=false; for(const ch of l){ if(ch==='"'){q=!q;}else if(ch===','&&!q){r.push(c);c='';}else c+=ch; } r.push(c); return r; }
+function cl(v){ return (v||'').replace(/^"|"$/g,'').trim(); }
+function pn(s){ return parseInt((s||'0').replace(/[¥,\s]/g,''))||0; }
+function saveSheetsCfg(){
+  const id=document.getElementById('cfg-shid').value.trim();
+  const rng=document.getElementById('cfg-rng').value.trim()||'見積マスタ!A4:H35';
+  document.getElementById('sh-id').value=id; document.getElementById('sh-range').value=rng;
+  loadSheets();
+}
+function saveGasCfg(){ const u=document.getElementById('cfg-gas').value.trim(); if(!u) return; localStorage.setItem(K.GAS,u); toast('GAS URL saved'); }
+function copyCode(){ navigator.clipboard.writeText(document.getElementById('gas-code').textContent).then(()=>toast('Code copied')); }
+
+// PDF
+function doPDF(){
+  if(!qi.length){ toast('見積項目が選択されていません'); return; }
+  toast('Generating PDF...'); setTimeout(()=>window.print(),300);
+}
+
+// UTILS
+function fp(n){ return '¥ '+(n||0).toLocaleString(); }
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function toast(msg){
+  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('on');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('on'),2600);
+}
+</script>
+</body>
+</html>
